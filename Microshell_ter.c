@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Microshell.c                                       :+:      :+:    :+:   */
+/*   Microshell_ter.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: clwenhaj <clwenhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/27 12:46:26 by clwenhaj          #+#    #+#             */
-/*   Updated: 2026/04/27 18:41:30 by clwenhaj         ###   ########.fr       */
+/*   Created: 2026/04/27 17:13:49 by clwenhaj          #+#    #+#             */
+/*   Updated: 2026/04/27 18:40:34 by clwenhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Microshell.h"
 
-void	fatal()
+void	fatal(void)
 {
 	write(2, "error: fatal\n", 13);
 	exit(1);
@@ -30,9 +30,9 @@ void	ft_putstr_fd2(char *str, char *arg)
 
 void	ft_exec(char **av, int i, int tmp_fd, char **env)
 {
-	if (dup2(tmp_fd,STDIN_FILENO) == -1)
+	if (dup2(tmp_fd, STDIN_FILENO) == -1)
 		fatal();
-	if (close(tmp_fd) == -1)
+	if (close(tmp_fd)== -1)
 		fatal();
 	av[i] = NULL;
 	execve(av[0], av, env);
@@ -40,22 +40,23 @@ void	ft_exec(char **av, int i, int tmp_fd, char **env)
 	exit(1);
 }
 
-int	main(int ac, char **av, char **env)
+int		main(int ac, char **av, char **env)
 {
-	int	i = 1;
-	int	fd[2];
-	int	tmp_fd;
-
+	int		i = 1;
+	int		fd[2];
+	int		tmp_fd;
+	
 	if ((tmp_fd = dup(STDIN_FILENO)) == -1)
 		fatal();
+
 	if (ac > 1)
 	{
 		while (av[i])
 		{
+			int		j = 0;
 			char	**cmd = &av[i];
-			int	j = 0;
-
-			while (cmd[j] && strcmp(cmd[j], "|") && strcmp(cmd[j], ";"))
+			
+			while (cmd[j] && strcmp(cmd[j], ";") && strcmp(cmd[j], "|"))
 				j++;
 			if (j > 0)
 			{
@@ -100,10 +101,10 @@ int	main(int ac, char **av, char **env)
 					}
 					else
 					{
-						if (close(fd[1]) || close(tmp_fd))
+						if (close(fd[1]) == -1 || close(tmp_fd) == -1)
 							fatal();
 						if ((tmp_fd = fd[0]) == -1)
-							fatal();
+						fatal();
 					}
 				}
 			}

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Microshell_ter.c                                   :+:      :+:    :+:   */
+/*   Microshell_bis.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clwenhaj <clwenhaj@learner.42.tech>        +#+  +:+       +#+        */
+/*   By: clwenhaj <clwenhaj@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/27 14:23:59 by clwenhaj          #+#    #+#             */
-/*   Updated: 2026/04/27 15:06:39 by clwenhaj         ###   ########.fr       */
+/*   Updated: 2026/04/27 18:40:10 by clwenhaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "microshell.h"
+#include "Microshell.h"
 
 void	fatal(void)
 {
@@ -55,7 +55,7 @@ int	main(int ac, char **av, char **env)
 				j++;
 			if (j > 0)
 			{
-				if (strcmp(cmd[0], "cd") == 0)
+				if (strcmp(cmd[0], "cd") == 0 && ((cmd[j] == NULL) || strcmp(cmd[j], ";") == 0))
 				{
 					if (j != 2)
 						ft_putstr_fd2("error: cd: bad arguments", NULL);
